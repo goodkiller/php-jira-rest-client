@@ -80,4 +80,14 @@ class BoardService extends \JiraRestApi\JiraClient
 
         return $epics;
     }
+    
+    public function getBoardSprintIssues($boardId, $sprintId, $paramArray = [])
+    {
+        $json = $this->exec($this->uri.'/'.$boardId.'/sprint/'.$sprintId.'/issue'.$this->toHttpQueryParameter($paramArray), null);
+        $issues = $this->json_mapper->mapArray(
+            json_decode($json)->issues, new \ArrayObject(), Issue::class
+        );
+
+        return $issues;
+    }
 }
